@@ -1,0 +1,22 @@
+{
+  "name": "mf-analysis",
+  "version": "0.0.1",
+  "description": "A tool to analyse mutual fund holding",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nabajit Roy",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "got": "^10.4.0",
+    "jsdom": "^16.2.2",
+    "mysql": "^2.18.1",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "babel-jest": "^28.1.3",
+    "regenerator-runtime": "^0.13.9"
+  }
+}
