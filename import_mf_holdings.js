@@ -16,29 +16,31 @@ const connection = require("./server.js");
 				
 				
 				let result = await getHoldingDetails(holdingUrl ) 
-				
+				console.log(typeof(result ))
 				
 				result.forEach((raw)=>{
-				createQuary = createQuary + '('
-				createQuary = createQuary +  "'" + raw[3].trim() + "'," 
-				createQuary = createQuary +  "'" + fundKey + "'," 
-				//createQuary = createQuary +  "'" +$(element).find(".sn").text() + "',"  
-				createQuary = createQuary +  "'" +raw[4].trim()+ "'," 
-				createQuary = createQuary +  "'" +raw[5].trim()+ "'," 
-				createQuary = createQuary +  "'" +raw[6].trim()+ "'," 
-				createQuary = createQuary +  "'" +raw[7].trim()+ "'," 
-				createQuary = createQuary +  "'" +raw[8].trim()+ "'," 
-				createQuary = createQuary +  "'" +raw[9].trim()+ "'," 
-				createQuary = createQuary +  "'" +raw[10].trim()+ "'," 
-				createQuary = createQuary +  "'" +raw[11].trim()+ "'"  
-				createQuary = createQuary + '),'
+					 if(raw[3].trim() !== ''){
+							console.log(raw )
+							createQuary = createQuary + '('
+							createQuary = createQuary +  "'" + raw[3].trim() + "'," 
+							createQuary = createQuary +  "'" + fundKey + "',"    
+							createQuary = createQuary +  "'" +raw[5].trim()+ "'," 
+							createQuary = createQuary +  "'" +raw[7].trim()+ "'," 
+							createQuary = createQuary +  "'" +raw[8].trim()+ "'," 
+							createQuary = createQuary +  "'" +raw[9].trim()+ "'," 
+							createQuary = createQuary +  "'" +raw[10].trim()+ "'," 
+							createQuary = createQuary +  "'" +raw[11].trim()+ "'," 
+							createQuary = createQuary +  "'" +raw[12].trim()+ "'," 
+							createQuary = createQuary +  "'" +raw[13].trim()+ "'"  
+							createQuary = createQuary + '),'
+					 }
 
 				})
 				
 				
 				
 				createQuary = createQuary.replace(/,+$/, "") 
-				createQuary = createQuary + " ON DUPLICATE KEY UPDATE "
+			 createQuary = createQuary + " ON DUPLICATE KEY UPDATE "
 				createQuary = createQuary + "stock_name =  values(stock_name),"
 				createQuary = createQuary + "fund_key =  values(fund_key),"
 				createQuary = createQuary + "sector = values(sector)," 
@@ -48,14 +50,15 @@ const connection = require("./server.js");
 				createQuary = createQuary +  "one_year_highest_holding=  values(one_year_highest_holding),"
 				createQuary = createQuary +  "one_year_lowest_holding=  values(one_year_lowest_holding),"
 				createQuary = createQuary +  "quantity=  values(quantity),"
-				createQuary = createQuary +  "one_month_change_quantity=  values(one_month_change_quantity)" 
-				
-				connection.query(createQuary, function(err, results, fields) {
+				createQuary = createQuary +  "one_month_change_quantity=  values(one_month_change_quantity)"  
+				// console.log(createQuary)
+			 	connection.query(createQuary, function(err, results, fields) {
 					if (err) {
 					  console.log(err.message);
 					}
 					 output[fundKey]=results 
-				  });
+					 console.log(results)
+				  }); 
 				
 				 //output[fundKey]=createQuary 
 			} catch (error) {
@@ -74,8 +77,7 @@ const connection = require("./server.js");
 
 
 
-  function getHoldingDetails (vgmUrl )  {
-	  
+  function getHoldingDetails (vgmUrl )  { 
     return new Promise((resolve, reject)=>{
 		
 		  try {
@@ -86,10 +88,11 @@ const connection = require("./server.js");
                 let output = [];
 			    
 				  $("#equityCompleteHoldingTable tbody > tr").each((index, element) => {
+			        let data = $(element).text().split("\n") 
 			        
 			         raw.push($(element).text().split("\n"));
 		          }); 
-				   //console.log(raw)
+				 //   console.log( raw )
 				 //  console.log(vgmUrl + " --- "  )
                         resolve(raw);
 				})
