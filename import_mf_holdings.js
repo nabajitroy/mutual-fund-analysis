@@ -13,10 +13,7 @@ const connection = require("./server.js");
 				let holdingUrl ="https://www.moneycontrol.com/mutual-funds/" +  fundName +  "/portfolio-holdings/" + fundKey;
 				let createQuary = `INSERT INTO  portfolio_holdings(stock_name, fund_key, sector, value, percentage_of_total_holding, one_month_change, one_year_highest_holding, one_year_lowest_holding, quantity, one_month_change_quantity)values`
 				
-				
-				
-				let result = await getHoldingDetails(holdingUrl ) 
-				console.log(typeof(result ))
+				let result = await getHoldingDetails(holdingUrl )  
 				
 				result.forEach((raw)=>{
 					 if(raw[3].trim() !== ''){
@@ -40,7 +37,7 @@ const connection = require("./server.js");
 				
 				
 				createQuary = createQuary.replace(/,+$/, "") 
-			 createQuary = createQuary + " ON DUPLICATE KEY UPDATE "
+			    createQuary = createQuary + " ON DUPLICATE KEY UPDATE "
 				createQuary = createQuary + "stock_name =  values(stock_name),"
 				createQuary = createQuary + "fund_key =  values(fund_key),"
 				createQuary = createQuary + "sector = values(sector)," 
@@ -50,8 +47,7 @@ const connection = require("./server.js");
 				createQuary = createQuary +  "one_year_highest_holding=  values(one_year_highest_holding),"
 				createQuary = createQuary +  "one_year_lowest_holding=  values(one_year_lowest_holding),"
 				createQuary = createQuary +  "quantity=  values(quantity),"
-				createQuary = createQuary +  "one_month_change_quantity=  values(one_month_change_quantity)"  
-				// console.log(createQuary)
+				createQuary = createQuary +  "one_month_change_quantity=  values(one_month_change_quantity)"   
 			 	connection.query(createQuary, function(err, results, fields) {
 					if (err) {
 					  console.log(err.message);
@@ -59,8 +55,7 @@ const connection = require("./server.js");
 					 output[fundKey]=results 
 					 console.log(results)
 				  }); 
-				
-				 //output[fundKey]=createQuary 
+				 
 			} catch (error) {
 			  console.log('error'+ error);
 			}
